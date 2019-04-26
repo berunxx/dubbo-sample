@@ -26,10 +26,11 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public JSONResult commonExceptionHandle(Exception e) {
-        log.error("[SystemException]Exception:", e);
         if (e instanceof RpcException) {
+            log.error("[Dubbo RpcException]Exception:", e);
             return JSONResult.error("Dubbo调用服务异常:" + e.getMessage());
         }
+        log.error("[SystemException]Exception:", e);
         return JSONResult.error("System Error, please try again later! Message:" + e.getMessage());
     }
     @ResponseBody

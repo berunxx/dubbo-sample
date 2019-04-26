@@ -23,6 +23,7 @@ import java.util.concurrent.CountDownLatch;
 public class DistributedLockByZookeeper implements InitializingBean {
 
     private static final String ROOT_PATH_LOCK = "root-lock";
+    private static final String ROOT_NAME_SPACE = "dubbo-sample-lock";
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
     @Autowired
@@ -44,10 +45,10 @@ public class DistributedLockByZookeeper implements InitializingBean {
                         .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)
                         .forPath(keyPath);
                 // 临时节点
-                log.info("成功获取到锁，路径为:{}", keyPath);
+                log.info("成功获取到锁，路径为:{}", ROOT_NAME_SPACE + "/" + keyPath);
                 break;
             } catch (Exception e) {
-                log.info("没有获取到锁，路径为:{}", keyPath);
+                log.info("没有获取到锁，路径为:{}", ROOT_NAME_SPACE + "/" + keyPath);
                 log.info("重新获取锁 .......");
                 try {
                     if (countDownLatch.getCount() <= 0) {
@@ -109,7 +110,7 @@ public class DistributedLockByZookeeper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        curatorFramework = curatorFramework.usingNamespace("dubbo-sample-lock");
+        curatorFramework = curatorFramework.usingNamespace(ROOT_NAME_SPACE);
         String path = "/" + ROOT_PATH_LOCK;
         try {
             if (curatorFramework.checkExists().forPath(path) == null) {
@@ -120,7 +121,7 @@ public class DistributedLockByZookeeper implements InitializingBean {
                         .forPath(path);
             }
             addWatcher(ROOT_PATH_LOCK);
-            log.info("root path 的 watcher 事件创建成功");
+            log.info("root path [{}] 的 watcher 事件创建成功", ROOT_NAME_SPACE + "/" + path);
         } catch (Exception e) {
             log.error("连接zookeeper失败 {}", e.getMessage(), e);
         }

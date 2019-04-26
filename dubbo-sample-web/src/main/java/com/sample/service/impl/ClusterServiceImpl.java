@@ -50,8 +50,9 @@ public class ClusterServiceImpl implements ClusterService {
             // 模拟业务处理时间
             Thread.sleep(5000);
         } catch (InterruptedException e) {
+            log.error("业务处理异常：", e);
+        } finally {
             distributedLock.releaseDistributedLock(PATH);
-            e.printStackTrace();
         }
         itemService.buyItem(item.getId(), amount);
         log.info("扣减库存成功");

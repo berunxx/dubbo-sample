@@ -13,8 +13,17 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
 
+    /**
+     * 根据主键查找Item
+     * @param id 主键ID
+     * @return Item
+     */
     Item findById(int id);
 
+    /**
+     * 删除
+     * @param id 主键
+     */
     void deleteById(String id);
 
     List<Item> findAll();
