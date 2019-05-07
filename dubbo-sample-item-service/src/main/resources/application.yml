@@ -1,0 +1,15 @@
+server:
+  port: 8021
+
+
+#统一设置服务提供方的规则
+dubbo:
+  application:
+    name: item-service
+  protocol:
+    name: dubbo
+    port: 20881
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  provider:
+    timeout: 1000

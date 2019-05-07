@@ -9,6 +9,7 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <modules>
+        <module>../dubbo-sample-commons-api</module>
         <module>../dubbo-sample-item-api</module>
         <module>../dubbo-sample-order-api</module>
     </modules>

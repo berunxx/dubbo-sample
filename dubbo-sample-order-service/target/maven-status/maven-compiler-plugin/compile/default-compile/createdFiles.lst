@@ -1,0 +1,4 @@
+cn/waynezw/order/config/DruidDataSourceConfiguration.class
+cn/waynezw/order/OrderApplication.class
+cn/waynezw/order/mapper/OrderMapper.class
+cn/waynezw/order/service/impl/OrderServiceImpl.class
